@@ -38,7 +38,7 @@ class AuthController extends Controller
             return redirect('/dashboard');
         }
 
-        return back()->with('error', 'Login failed!');
+        return redirect('/login')->with('error', 'Username or password is incorrect.');
     }
 
     public function dashboard() {
