@@ -1,0 +1,33 @@
+services:
+  # Service untuk Laravel (PHP + Apache)
+  app:
+    build:
+      context: .
+    container_name: laravel-app
+    ports:
+      - "8080:80"   # Menjalankan di localhost:8080
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel
+
+  # Service untuk database MySQL
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vulnweb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+
+volumes:
+  db_data: {}
+
+networks:
+  laravel:
+    driver: bridge
