@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
+
 
 class AuthController extends Controller
 {
@@ -42,13 +45,25 @@ class AuthController extends Controller
     }
 
     public function dashboard() {
-        $username = Session::get('user');
-        $password = Session::get('password');
-        return view('halaman/dashboard', compact('username', 'password'));
-    }
+
+    $users = User::all();
+    return view('halaman.dashboard', compact('users'));
+}
 
     public function logout() {
         Session::forget('user');
         return redirect('halaman/login');
     }
+    public function destroy($id)
+{
+     $user = User::find($id);
+
+    if (!$user) {
+        return redirect()->back()->with('error', 'User tidak ditemukan.');
+    }
+
+    $user->delete();
+
+    return redirect()->back()->with('success', 'User berhasil dihapus.');
+}
 }
