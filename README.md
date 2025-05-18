@@ -1,22 +1,33 @@
 # Vulnweb - Vulnerable Web Application
 
-Vulnweb adalah aplikasi web yang sengaja dibuat rentan untuk tujuan pembelajaran dan praktik pengujian keamanan aplikasi web (ethical hacking).
+**Vulnweb** is a deliberately vulnerable web application created for educational purposes and practicing web application security testing (ethical hacking).
 
 ---
 
-## Fitur
+## Features
 
-- Form login yang rentan terhadap SQL Injection
-- Fitur upload file yang tidak aman
-- Contoh kerentanan Cross-Site Scripting (XSS)
-- Berbagai kerentanan lain sesuai OWASP Top 10
+- Login form vulnerable to SQL Injection
+- Insecure file upload functionality
+- Cross-Site Scripting (XSS) vulnerability examples
+- Various other vulnerabilities based on the OWASP Top 10
 
 ---
 
-## Cara Memulai
+## Getting Started
 
-### Clone repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/rnldsyh1611/Vulnweb.git
 cd Vulnweb
+```
+
+### Pull Image Docker
+```bash
+docker pull renaldockerhub/vulnweb:latest
+```
+
+#### Run Docker
+```bash
+docker run -d -p 8000:80 --name vulnweb renaldockerhub/vulnweb:latest
+```
