@@ -1,33 +1,32 @@
+version: '3.8'
+
 services:
-  # Service untuk Laravel (PHP + Apache)
   app:
+    container_name: vulnweb
     build:
       context: .
-    container_name: laravel-app
+      dockerfile: Dockerfile
     ports:
-      - "8080:80"   # Menjalankan di localhost:8080
+      - "8000:8000"
     volumes:
       - .:/var/www
-    networks:
-      - laravel
+    depends_on:
+      - db
+    env_file:
+      - .env.docker
 
-  # Service untuk database MySQL
   db:
-    image: mysql:5.7
-    container_name: laravel-db
+    image: mysql:8.0
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ''
       MYSQL_DATABASE: vulnweb
       MYSQL_USER: root
-      MYSQL_PASSWORD: 
+      MYSQL_PASSWORD: ''
+    ports:
+      - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - laravel
+      - dbdata:/var/lib/mysql
 
 volumes:
-  db_data: {}
-
-networks:
-  laravel:
-    driver: bridge
+  dbdata:
