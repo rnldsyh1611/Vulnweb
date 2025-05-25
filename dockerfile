@@ -1,35 +1,24 @@
-FROM php:8.3-cli
+FROM php:8.3-apache
 
-# Install dependencies
 RUN apt-get update && apt-get install -y \
-    unzip \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libzip-dev \
-    zip \
-    libpq-dev \
+    unzip git curl libpng-dev libonig-dev libzip-dev zip libpq-dev \
     && docker-php-ext-install pdo_mysql zip
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
-# Copy project files
 COPY . .
 
-# Install PHP dependencies
 RUN composer install
 
-# Give necessary permissions
-RUN chmod -R 755 /var/www \
-    && chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www/html \
+    && chown -R www-data:www-data /var/www/html
 
-# Expose Laravel port
-EXPOSE 8000
+# Supaya apache tidak warning servername
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Start Laravel with artisan
-CMD php artisan serve --host=0.0.0.0 --port=8000
+EXPOSE 80
+
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+

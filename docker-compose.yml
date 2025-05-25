@@ -2,18 +2,28 @@ version: '3.8'
 
 services:
   app:
-    container_name: vulnweb
+    image: renaldockerhub/vulnweb
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
     volumes:
       - .:/var/www
-    depends_on:
-      - db
+    expose:
+      - "9000"
     env_file:
       - .env.docker
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
 
   db:
     image: mysql:8.0
