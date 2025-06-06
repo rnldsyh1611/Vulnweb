@@ -26,7 +26,6 @@ cd Vulnweb
 ```bash
 docker pull renaldockerhub/vulnweb:latest
 ```
-
 #### Run Docker
 ```bash
 docker run -d -p 8000:80 --name vulnweb renaldockerhub/vulnweb:latest
